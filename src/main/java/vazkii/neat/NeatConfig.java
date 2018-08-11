@@ -26,6 +26,8 @@ public class NeatConfig {
 	public static boolean showAttributes = true;
 	public static boolean showArmor = true;
 	public static boolean groupArmor = true;
+	public static boolean showToughness = true;
+	public static boolean groupToughness = true;
 	public static boolean colorByType = false;
 	public static int hpTextHeight = 14;
 	public static boolean showMaxHP = true;
@@ -62,6 +64,8 @@ public class NeatConfig {
 		showAttributes = loadPropBool("Show Attributes", showAttributes);
 		showArmor = loadPropBool("Show Armor", showArmor);
 		groupArmor = loadPropBool("Group Armor (condense 5 iron icons into 1 diamond icon)", groupArmor);
+		showToughness = loadPropBool("Show Toughness", showToughness);
+		groupToughness = loadPropBool("Group Toughness (condense 5 iron icons into 1 diamond icon)", groupToughness);
 		colorByType = loadPropBool("Color Health Bar by Type (instead of health percentage)", colorByType);
 		hpTextHeight = loadPropInt("HP Text Height", hpTextHeight);
 		showMaxHP = loadPropBool("Show Max HP", showMaxHP);
