@@ -2,6 +2,7 @@ package vazkii.neat;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -31,6 +32,8 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -47,6 +50,8 @@ public class HealthBarRenderer {
 
 	public static ResourceLocation IRON_TOUGHNESS = new ResourceLocation("neat:textures/gui/irontoughness.png");
 	public static ResourceLocation DIAMOND_TOUGHNESS = new ResourceLocation("neat:textures/gui/diamondtoughness.png");
+	
+	protected static PotionEffect[] potionEffects = null;
 
 	List<EntityLivingBase> renderedEntities = new ArrayList();
 	
@@ -314,6 +319,21 @@ public class HealthBarRenderer {
 					
 					off -= 12;
 				}
+				
+				if(NeatConfig.showPotions) {
+					final Collection<PotionEffect> potionEffectCollection = entity.getActivePotionEffects();
+					ResourceLocation loc = new ResourceLocation("textures/gui/container/inventory.png");
+					
+					if(potionEffectCollection.size() > 0) {
+						for (final PotionEffect potionEffect : potionEffectCollection) {
+							final Potion potion = potionEffect.getPotion();
+							if(potion.hasStatusIcon()) {
+								renderIcon(off, 0, loc, potion, 18, 18);
+								off -= NeatConfig.potionSpacing;
+							}
+						}
+					}
+				}
 
 				GlStateManager.popMatrix();
 
@@ -353,6 +373,27 @@ public class HealthBarRenderer {
 			double maxU = 1.0;
 			double maxV = 1.0;
 			Minecraft.getMinecraft().getTextureManager().bindTexture(resource);
+			Tessellator tessellator = Tessellator.getInstance();
+			BufferBuilder buffer = tessellator.getBuffer();
+			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+			buffer.pos((double)(vertexX), 		(double)(vertexY + intV), 	0.0D).tex(minU, maxV).endVertex();
+			buffer.pos((double)(vertexX + intU), (double)(vertexY + intV),	0.0D).tex(maxU, maxV).endVertex();
+			buffer.pos((double)(vertexX + intU), (double)(vertexY), 			0.0D).tex(maxU, minV).endVertex();
+			buffer.pos((double)(vertexX), 		(double)(vertexY), 			0.0D).tex(minU, minV).endVertex();
+			tessellator.draw();
+		} catch (Exception e) {}
+	}
+	
+	private void renderIcon(int vertexX, int vertexY, ResourceLocation resource, Potion thisPotion, int intU, int intV) {
+		try {
+			Minecraft.getMinecraft().getTextureManager().bindTexture(resource);
+			int pindex = thisPotion.getStatusIconIndex();
+			int iX = (0 + (pindex % 8) * 18);
+			int iY = (198 + (pindex / 8) * 18);
+			double minU = (double) iX / 256;
+			double minV = (double) iY / 256;
+			double maxU = (double) (iX + 18) / 256;
+			double maxV = (double) (iY + 18) / 256;
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder buffer = tessellator.getBuffer();
 			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);

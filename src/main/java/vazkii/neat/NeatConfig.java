@@ -23,11 +23,13 @@ public class NeatConfig {
 	public static int barHeight = 4;
 	public static int plateSize = 25;
 	public static int plateSizeBoss = 50;
+	public static int potionSpacing = 14;
 	public static boolean showAttributes = true;
 	public static boolean showArmor = true;
 	public static boolean groupArmor = true;
 	public static boolean showToughness = true;
 	public static boolean groupToughness = true;
+	public static boolean showPotions = false;
 	public static boolean colorByType = false;
 	public static int hpTextHeight = 14;
 	public static boolean showMaxHP = true;
@@ -61,11 +63,13 @@ public class NeatConfig {
 		barHeight = loadPropInt("Health Bar Height", barHeight);
 		plateSize = loadPropInt("Plate Size", plateSize);
 		plateSizeBoss = loadPropInt("Plate Size (Boss)", plateSizeBoss);
+		potionSpacing = loadPropInt("Potion Spacing in Pixels (icons are 18px wide)", potionSpacing);
 		showAttributes = loadPropBool("Show Attributes", showAttributes);
 		showArmor = loadPropBool("Show Armor", showArmor);
 		groupArmor = loadPropBool("Group Armor (condense 5 iron icons into 1 diamond icon)", groupArmor);
 		showToughness = loadPropBool("Show Toughness", showToughness);
 		groupToughness = loadPropBool("Group Toughness (condense 5 iron icons into 1 diamond icon)", groupToughness);
+		showPotions = loadPropBool("Show Potion Effects", showPotions);
 		colorByType = loadPropBool("Color Health Bar by Type (instead of health percentage)", colorByType);
 		hpTextHeight = loadPropInt("HP Text Height", hpTextHeight);
 		showMaxHP = loadPropBool("Show Max HP", showMaxHP);
